@@ -11,5 +11,5 @@ package co.com.edu.udea.Commons;
  */
 public class GlobalConfigProperties {
     
-    public static String path = "/home/julianesten/Escritorio/file.csv";
+    public static String path = "";
 }

@@ -139,7 +139,7 @@ public class MainView extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        if(!GlobalConfigProperties.path.isEmpty()){
+        if(GlobalConfigProperties.path.isEmpty()){
             JOptionPane.showMessageDialog(null, "No file selected still");
             return;
         }             
@@ -149,7 +149,7 @@ public class MainView extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         
-        if(!GlobalConfigProperties.path.isEmpty()){
+        if(GlobalConfigProperties.path.isEmpty()){
             JOptionPane.showMessageDialog(null, "No file selected still");
             return;
         }                
@@ -157,6 +157,14 @@ public class MainView extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+       
+        if(!GlobalConfigProperties.path.isEmpty()){
+            int option = JOptionPane.showConfirmDialog(rootPane,"There is a file selected, do you want replace it?" , "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            if(option != JOptionPane.YES_OPTION){
+                return;
+            }
+        }
+        
         JFileChooser fileChooser = new JFileChooser();
         int returnValue = fileChooser.showOpenDialog(null);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
