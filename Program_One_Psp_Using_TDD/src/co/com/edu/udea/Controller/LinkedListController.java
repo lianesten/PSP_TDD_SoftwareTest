@@ -5,6 +5,7 @@
  */
 package co.com.edu.udea.Controller;
 
+import co.com.edu.udea.Commons.GlobalConfigProperties;
 import co.com.edu.udea.Helpers.Helper;
 import co.com.edu.udea.Model.LinkedListModel;
 import java.text.DecimalFormat;
@@ -16,16 +17,10 @@ import javax.swing.JOptionPane;
  * @author julianesten
  */
 public class LinkedListController {
-    
+    public static LinkedListModel linkedListModel;
     public static void insertLinkedList(){
-        LinkedListModel linkedListModel = new LinkedListModel();
-        String filePath = "/home/julianesten/Escritorio/file.csv";
-        ArrayList data = Helper.readCvs(filePath);
-        if(data.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Debe ingresar los valores");
-            //Exception
-            return;
-        }
+         linkedListModel = new LinkedListModel();
+        ArrayList data = Helper.readCvs(GlobalConfigProperties.path);
         
         //recorremos el String y llamamos al modelo para que inserte los datos en una lista simple ligada
         for(int i = 0; i<data.size();i++){
@@ -33,19 +28,24 @@ public class LinkedListController {
         }
         
         linkedListModel.print();
-        //Calculamos el avg 
-        double avg = linkedListModel.avg();
-        JOptionPane.showMessageDialog(null, "La media de los datos ingresados es: "+avg);
-        
-        //Calculamos la desviacion estandar
-        double sigma = linkedListModel.standarDeviaton();
-        DecimalFormat   formatDecimal = new DecimalFormat("#.##");
-        JOptionPane.showMessageDialog(null, "La desciacion estandar de los datos ingresados es:  "+formatDecimal.format(sigma));
         
         
         
     }
     
+    public static double avg(){
+        return linkedListModel.avg();
+    }
+    
+    public static double standarDeviation(){   
+        return linkedListModel.standarDeviaton();
+    }
+    
+   
+public static void LOC(String Path){
+
+
+}
     
   
     
