@@ -11,5 +11,6 @@ package co.com.edu.udea.Commons;
  */
 public class GlobalConfigProperties {
     
-    public static String path = "";
+    public static String pathFile = "";
+    public static String pathFolder = "";
 }

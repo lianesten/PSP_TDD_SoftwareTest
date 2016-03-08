@@ -6,8 +6,12 @@
 package co.com.edu.udea.View;
 
 import co.com.edu.udea.Commons.GlobalConfigProperties;
+import co.com.edu.udea.Controller.CountLinesOfCodeController;
 import co.com.edu.udea.Controller.LinkedListController;
+import co.com.edu.udea.Entities.CountLinesOfCodeEntity;
+import co.com.edu.udea.Helpers.Helper;
 import java.io.File;
+import java.lang.reflect.Method;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -40,12 +44,14 @@ public class MainView extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu9 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
 
@@ -67,6 +73,14 @@ public class MainView extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem4);
+
+        jMenuItem6.setText("open Directory...");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem6);
 
         jMenuItem1.setText("exit");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -101,6 +115,15 @@ public class MainView extends javax.swing.JFrame {
         jMenu9.add(jMenu2);
 
         jMenu3.setText("Program 2");
+
+        jMenuItem5.setText("Total Classes");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem5);
+
         jMenu9.add(jMenu3);
 
         jMenu4.setText("Program 3");
@@ -135,11 +158,12 @@ public class MainView extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
+           Method[] a = this.getClass().getDeclaredMethods();
         System.exit(0);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        if(GlobalConfigProperties.path.isEmpty()){
+        if(GlobalConfigProperties.pathFile.isEmpty()){
             JOptionPane.showMessageDialog(null, "No file selected still");
             return;
         }             
@@ -149,7 +173,7 @@ public class MainView extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         
-        if(GlobalConfigProperties.path.isEmpty()){
+        if(GlobalConfigProperties.pathFile.isEmpty()){
             JOptionPane.showMessageDialog(null, "No file selected still");
             return;
         }                
@@ -157,26 +181,49 @@ public class MainView extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-       
-        if(!GlobalConfigProperties.path.isEmpty()){
+       if(!GlobalConfigProperties.pathFile.isEmpty()){
             int option = JOptionPane.showConfirmDialog(rootPane,"There is a file selected, do you want replace it?" , "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             if(option != JOptionPane.YES_OPTION){
                 return;
             }
         }
-        
-        JFileChooser fileChooser = new JFileChooser();
-        int returnValue = fileChooser.showOpenDialog(null);
-        if (returnValue == JFileChooser.APPROVE_OPTION) {
-            try{
-                GlobalConfigProperties.path = fileChooser.getSelectedFile().getAbsolutePath();
-                LinkedListController.insertLinkedList();
-            }catch(Exception e){
-                JOptionPane.showMessageDialog(fileChooser, "Error saving file, contact the administrator program");
-            }
-            JOptionPane.showMessageDialog(fileChooser, "File saved successfully");
-        }
+        Helper.chooseFiler(1);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        CountLinesOfCodeEntity entity = CountLinesOfCodeController.getTotalCount();
+        JOptionPane.showMessageDialog(rootPane, 
+                "classes: "+String.valueOf(entity.getClasses())+
+                "\ninstances: "+String.valueOf(entity.getInstances())+
+                "\ncycles: "+String.valueOf(entity.getInstances())+
+                "\nconditionals: "+String.valueOf(entity.getInstances())+
+                "\nvariables Declarations: "+String.valueOf(entity.getInstances())+
+                "\nmethods: "+String.valueOf(entity.getInstances())+
+                "\nconstructors: "+String.valueOf(entity.getInstances())                        
+            );
+ /*
+            private int classes;
+    private int instances;
+    private int cycles;
+    private int conditionals;    
+    private int variablesDeclarations;  
+    private int methods;
+    private int constructors;
+        
+        */
+        
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+       if(!GlobalConfigProperties.pathFolder.isEmpty()){
+            int option = JOptionPane.showConfirmDialog(rootPane,"There is a file selected, do you want replace it?" , "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            if(option != JOptionPane.YES_OPTION){
+                return;
+            }
+        }
+        Helper.chooseFiler(2);
+        CountLinesOfCodeController.insertFileDirectory();
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -227,6 +274,8 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     // End of variables declaration//GEN-END:variables
 }

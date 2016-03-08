@@ -8,9 +8,7 @@ package co.com.edu.udea.Controller;
 import co.com.edu.udea.Commons.GlobalConfigProperties;
 import co.com.edu.udea.Helpers.Helper;
 import co.com.edu.udea.Model.LinkedListModel;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,17 +18,12 @@ public class LinkedListController {
     public static LinkedListModel linkedListModel;
     public static void insertLinkedList(){
          linkedListModel = new LinkedListModel();
-        ArrayList data = Helper.readCvs(GlobalConfigProperties.path);
-        
+        ArrayList data = Helper.readCvs(GlobalConfigProperties.pathFile);   
         //recorremos el String y llamamos al modelo para que inserte los datos en una lista simple ligada
         for(int i = 0; i<data.size();i++){
             linkedListModel.insertObjectAfter(data.get(i));
         }
-        
-        linkedListModel.print();
-        
-        
-        
+        linkedListModel.print();  
     }
     
     public static double avg(){
@@ -39,14 +32,5 @@ public class LinkedListController {
     
     public static double standarDeviation(){   
         return linkedListModel.standarDeviaton();
-    }
-    
-   
-public static void LOC(String Path){
-
-
-}
-    
-  
-    
+    }  
 }

@@ -5,8 +5,6 @@
  */
 package co.com.edu.udea.UnitTest;
 
-import co.com.edu.udea.Entities.LinkedListEntity;
-import co.com.edu.udea.Entities.NodoEntity;
 import co.com.edu.udea.Model.LinkedListModel;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -93,4 +91,9 @@ public class TestUnitLinkedList {
         assertEquals(1, (int)linkedListModel.standarDeviaton());
     
     }
+    
+    @Test
+    public void classesCount(){}    
+    
+    
 }
