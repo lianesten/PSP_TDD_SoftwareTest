@@ -12,15 +12,45 @@ package co.com.edu.udea.Entities;
 public class NodoEntity {
     private Object data;
     private NodoEntity next;
-
+    private double xParameter;
+    private double yParameter;
+    
+    
     public NodoEntity(Object data, NodoEntity next) {
         this.data = data;
         this.next = next;
     }
     
-        public NodoEntity(Object data) {
+    public NodoEntity(double xParameter,double yParameter, NodoEntity next) {
+        this.xParameter = xParameter;
+        this.yParameter = yParameter;
+        this.next = next;
+    }    
+    
+    public NodoEntity(double xParameter,double yParameter) {
+        this.xParameter = xParameter;
+        this.yParameter = yParameter;
+    }
+    
+    public NodoEntity(Object data) {
         this.data = data;
         this.next = null;
+    }
+
+    public double getxParameter() {
+        return xParameter;
+    }
+
+    public void setxParameter(double xParameter) {
+        this.xParameter = xParameter;
+    }
+
+    public double getyParameter() {
+        return yParameter;
+    }
+
+    public void setyParameter(double yParameter) {
+        this.yParameter = yParameter;
     }
 
     public Object getData() {

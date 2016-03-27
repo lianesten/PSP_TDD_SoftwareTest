@@ -11,7 +11,6 @@ import co.com.edu.udea.Entities.NodoEntity;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.lang.reflect.Method;
 import javax.swing.JOptionPane;
 
 /**
@@ -38,6 +37,14 @@ public class LinkedListModel {
         }
 //        return isInsert;
     }
+    
+    public void insertObjectAfterNodoRegression(double xParameter,double yParameter) {
+        if (isVoid()) {
+            linkedListEntity.primero = linkedListEntity.ultimo = new NodoEntity(xParameter,yParameter);
+        } else {
+            linkedListEntity.primero = new NodoEntity(xParameter,yParameter, linkedListEntity.primero);
+        }
+    }    
 
     public int size() {
         int size = 0;
@@ -53,7 +60,7 @@ public class LinkedListModel {
         return linkedListEntity;
     }
 
-    //Este metodo no deberia de ir aqui
+    //Those methods must not be here
     public double avg() {
         double avg = 0, avgTotal = 0;
         NodoEntity actual = linkedListEntity.primero;
@@ -66,8 +73,32 @@ public class LinkedListModel {
 
         return avgTotal;
     }
+    
+    public double localAvgX() {
+        double avg = 0, avgTotal = 0;
+        NodoEntity actual = linkedListEntity.primero;
+        while (actual != null) {
+            avg = avg + actual.getxParameter();
+            actual = actual.getNext();
+        }
+        avgTotal = avg / size();
+        return avgTotal;
+    }    
+    
+    public double localAvgY() {
+        double avg = 0, avgTotal = 0;
+        NodoEntity actual = linkedListEntity.primero;
+        while (actual != null) {
+            avg = avg + actual.getyParameter();
+            actual = actual.getNext();
+        }
+        avgTotal = avg / size();
+        return avgTotal;
+    }        
+    
+    
 
-    //Este metodo no deberia de ir aqui
+    //Estos metodo no deberia de ir aqui
     public double standarDeviaton() {
         double sigma = 0, i = 0, sigmaTotal = 0, sumatoria = 0;
         double avg = avg();
@@ -105,16 +136,20 @@ public class LinkedListModel {
             BufferedReader read = new BufferedReader(file);
             //File iterator
             while ((temp = read.readLine()) != null) {
-                Method[] a = this.getClass().getDeclaredMethods();
-                if (temp.contentEquals("class")) {
+//                Method[] a = this.getClass().getDeclaredMethods();
+                if (temp.contains("class")) {
                     classes += 1;
                 }
+                
+                if(temp.contains(" public void") || temp.contains(" public double")){
+                    methods += 1;
+                }
 
-                if (temp.contentEquals("new")) {
+                if (temp.contains("new")) {
                     instances += 1;
                 }
 
-                if (temp.contains("while") || temp.contains("for")) {
+                if (temp.contains(" while") || temp.contains(" for")) {
                     cycles += 1;
                 }
 
@@ -161,7 +196,7 @@ public class LinkedListModel {
 
     public CountLinesOfCodeEntity getTotalCount() {
         CountLinesOfCodeEntity entityAux = new CountLinesOfCodeEntity();
-         CountLinesOfCodeEntity entity = new CountLinesOfCodeEntity();
+         CountLinesOfCodeEntity entity;
         int classes = 0, instances = 0, cycles = 0, conditionals = 0, variablesDeclarations = 0, methods = 0,constructors=0;
         if (isVoid()) {
             System.out.println("Empty list!, no data!");
@@ -179,8 +214,57 @@ public class LinkedListModel {
            constructors+=entityAux.getConstructors();
             actual = actual.getNext();
         }
-        
-        return new CountLinesOfCodeEntity(null, null, classes, instances, cycles, conditionals, variablesDeclarations, methods, constructors);
+        entity = new CountLinesOfCodeEntity(null, null, classes, instances, cycles, conditionals, variablesDeclarations, methods, constructors);
+        return entity;
     }
+    
+    
+    //==Linear Regression==
+    public double linearRegressionB1(){
+        double sumXY = 0,sumXPotencia = 0,B1;
+        int n ;
+        NodoEntity actual = linkedListEntity.primero;
+        while (actual != null) {
+            sumXY = sumXY + actual.getxParameter()*actual.getyParameter();
+            sumXPotencia = sumXPotencia + Math.pow(actual.getxParameter(), 2);
+            actual = actual.getNext();
+        }        
+        n = size();
+        B1 = ((sumXY)-(n*localAvgX()*localAvgY()))/((sumXPotencia)-(n*Math.pow(localAvgX(), 2)));
+        
+        return B1;
+    }
+    
+    public double linearRegresionB0(){
+        double B0 =0;
+        B0 = localAvgY() - (linearRegressionB1()*localAvgX());
+        return B0;
+    }
+    
+    public double correlationCoefficient(){
+        double sumXY=0,sumX=0,sumY=0,sumXPow=0,sumYPow=0,rxy=0,n=0;
+        NodoEntity actual = linkedListEntity.primero;
+        while (actual != null) {
+            sumXY = sumXY + actual.getxParameter()*actual.getyParameter();
+            sumX = sumX + actual.getxParameter();
+            sumY = sumY + actual.getyParameter();
+            sumXPow = sumXPow + Math.pow(actual.getxParameter(), 2);
+            sumYPow = sumYPow + Math.pow(actual.getyParameter(), 2);
+            actual = actual.getNext();
+        }
+        n=size();
+        rxy = ((n*sumXY)-(sumX*sumY))/(Math.sqrt(((n*sumXPow)-Math.pow(sumX, 2))*((n*sumYPow)-Math.pow(sumY, 2))));
+        return rxy;
+    }
+    
+    public double getRPow(){
+        return Math.pow(correlationCoefficient(), 2);
+    }
+    
+    public double getYk(Double xk){//Yk = Bo+B1Xk
+        return linearRegresionB0() + linearRegressionB1()*xk;
+    }
+    
+    //==END Linear Regression==
 
 }

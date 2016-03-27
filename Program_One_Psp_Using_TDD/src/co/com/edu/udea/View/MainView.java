@@ -7,6 +7,7 @@ package co.com.edu.udea.View;
 
 import co.com.edu.udea.Commons.GlobalConfigProperties;
 import co.com.edu.udea.Controller.CountLinesOfCodeController;
+import co.com.edu.udea.Controller.LinealRegressionController;
 import co.com.edu.udea.Controller.LinkedListController;
 import co.com.edu.udea.Entities.CountLinesOfCodeEntity;
 import co.com.edu.udea.Helpers.Helper;
@@ -43,16 +44,20 @@ public class MainView extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenu6 = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu9 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
+        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -65,22 +70,6 @@ public class MainView extends javax.swing.JFrame {
 
         jMenu6.setText("Help");
         jMenu1.add(jMenu6);
-
-        jMenuItem4.setText("open File...");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItem4);
-
-        jMenuItem6.setText("open Directory...");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItem6);
 
         jMenuItem1.setText("exit");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -95,6 +84,14 @@ public class MainView extends javax.swing.JFrame {
         jMenu9.setText("Psp");
 
         jMenu2.setText("Program 1");
+
+        jMenuItem4.setText("Load data..");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem4);
 
         jMenuItem3.setText("Calculate Media...");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
@@ -116,6 +113,14 @@ public class MainView extends javax.swing.JFrame {
 
         jMenu3.setText("Program 2");
 
+        jMenuItem6.setText("open Directory...");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem6);
+
         jMenuItem5.setText("Total Classes");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -127,6 +132,39 @@ public class MainView extends javax.swing.JFrame {
         jMenu9.add(jMenu3);
 
         jMenu4.setText("Program 3");
+
+        jMenuItem9.setText("Load data...");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem9);
+
+        jMenuItem7.setText("Calculate Regression B0 & B1");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem7);
+
+        jMenuItem8.setText("Calculate the Correlation Coefficient");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem8);
+
+        jMenuItem10.setText("Calculate an improved prediction");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem10);
+
         jMenu9.add(jMenu4);
 
         jMenu5.setText("Prgram 4");
@@ -166,17 +204,16 @@ public class MainView extends javax.swing.JFrame {
         if(GlobalConfigProperties.pathFile.isEmpty()){
             JOptionPane.showMessageDialog(null, "No file selected still");
             return;
-        }             
+        }
         JOptionPane.showMessageDialog(null, "The media is: "+LinkedListController.avg());
         
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        
         if(GlobalConfigProperties.pathFile.isEmpty()){
             JOptionPane.showMessageDialog(null, "No file selected still");
             return;
-        }                
+        }
         JOptionPane.showMessageDialog(null, "The Standar Deviation is: "+LinkedListController.standarDeviation());
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
@@ -193,13 +230,13 @@ public class MainView extends javax.swing.JFrame {
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         CountLinesOfCodeEntity entity = CountLinesOfCodeController.getTotalCount();
         JOptionPane.showMessageDialog(rootPane, 
-                "classes: "+String.valueOf(entity.getClasses())+
-                "\ninstances: "+String.valueOf(entity.getInstances())+
-                "\ncycles: "+String.valueOf(entity.getInstances())+
-                "\nconditionals: "+String.valueOf(entity.getInstances())+
-                "\nvariables Declarations: "+String.valueOf(entity.getInstances())+
-                "\nmethods: "+String.valueOf(entity.getInstances())+
-                "\nconstructors: "+String.valueOf(entity.getInstances())                        
+                "classes: "+entity.getClasses()+
+                "\ninstances: "+entity.getInstances()+
+                "\ncycles: "+entity.getCycles()+
+                "\nconditionals: "+entity.getConditionals()+
+                "\nvariables Declarations: "+entity.getVariablesDeclarations()+
+                "\nmethods: "+entity.getmethods()+
+                "\nconstructors: "+entity.getConstructors()
             );
  /*
             private int classes;
@@ -224,6 +261,41 @@ public class MainView extends javax.swing.JFrame {
         Helper.chooseFiler(2);
         CountLinesOfCodeController.insertFileDirectory();
     }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        if(GlobalConfigProperties.pathFileMultimpleColumns.isEmpty()){
+            JOptionPane.showMessageDialog(null, "No file selected still");
+            return;
+        }
+        JOptionPane.showMessageDialog(null, "The B1 is: "+LinealRegressionController.getB1()+"\n"+
+                "The B0 is: "+LinealRegressionController.getB0());
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        // TODO add your handling code here:
+               if(!GlobalConfigProperties.pathFileMultimpleColumns.isEmpty()){
+            int option = JOptionPane.showConfirmDialog(rootPane,"There is a file selected, do you want replace it?" , "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            if(option != JOptionPane.YES_OPTION){
+                return;
+            }
+        }
+        Helper.chooseFiler(3);
+        LinealRegressionController.insertLinkedListregression();
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        if(GlobalConfigProperties.pathFileMultimpleColumns.isEmpty()){
+            JOptionPane.showMessageDialog(null, "No file selected still");
+            return;
+        }
+        JOptionPane.showMessageDialog(null, "The r(x,y) is: "+LinealRegressionController.getCorrelationCoefficient()+"\n"+
+                "The r² is: "+LinealRegressionController.getRPow());        
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        double yk = Double.parseDouble(JOptionPane.showInputDialog("Type a stimate Xk"));
+        JOptionPane.showMessageDialog(rootPane, LinealRegressionController.getYk(yk));
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -271,11 +343,15 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     // End of variables declaration//GEN-END:variables
 }

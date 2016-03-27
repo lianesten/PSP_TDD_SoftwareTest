@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class LinkedListController {
     public static LinkedListModel linkedListModel;
     public static void insertLinkedList(){
-         linkedListModel = new LinkedListModel();
+        linkedListModel = new LinkedListModel();
         ArrayList data = Helper.readCvs(GlobalConfigProperties.pathFile);   
         //recorremos el String y llamamos al modelo para que inserte los datos en una lista simple ligada
         for(int i = 0; i<data.size();i++){

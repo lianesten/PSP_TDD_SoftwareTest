@@ -12,5 +12,6 @@ package co.com.edu.udea.Commons;
 public class GlobalConfigProperties {
     
     public static String pathFile = "";
+    public static String pathFileMultimpleColumns = "";
     public static String pathFolder = "";
 }

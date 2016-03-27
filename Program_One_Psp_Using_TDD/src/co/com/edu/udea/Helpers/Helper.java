@@ -6,13 +6,12 @@
 package co.com.edu.udea.Helpers;
 
 import co.com.edu.udea.Commons.GlobalConfigProperties;
+import co.com.edu.udea.Controller.LinealRegressionController;
 import co.com.edu.udea.Controller.LinkedListController;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
@@ -25,13 +24,28 @@ import javax.swing.JOptionPane;
 public class Helper {
 
     public static ArrayList readCvs(String path) {
+        boolean isMultipleColumns=false;
         ArrayList data = new ArrayList();
+        ArrayList x = new ArrayList();
+        ArrayList y = new ArrayList();
         BufferedReader br = null;
         String line = "";
+        String splitBy = ",";
         try {
             br = new BufferedReader(new FileReader(path));
             while ((line = br.readLine()) != null) {
-                data.add(line);
+                if (line.contains(",")) {
+                    isMultipleColumns =true;
+                    String[] parameter = line.split(splitBy);
+                    x.add(parameter[0]);
+                    y.add(parameter[1]);
+                } else {
+                    data.add(line);
+                }
+            }
+            if(isMultipleColumns){
+                data.add(x);
+                data.add(y);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -56,30 +70,31 @@ public class Helper {
 
     }
 
-
-    
-    
-    public static void chooseFiler(int typeOfFile){
+    public static void chooseFiler(int typeOfFile) {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         int returnValue = fileChooser.showOpenDialog(null);
-        
+
         if (returnValue == JFileChooser.APPROVE_OPTION) {
-            try{
-                if(typeOfFile==1){//File
+            try {
+                if (typeOfFile == 1) {//File psp1
                     GlobalConfigProperties.pathFile = fileChooser.getSelectedFile().getAbsolutePath();
                     LinkedListController.insertLinkedList();
                     JOptionPane.showMessageDialog(fileChooser, "File saved successfully");
-                }else if(typeOfFile==2){//Folder
+                } else if (typeOfFile == 2) {//Folder psp2
                     GlobalConfigProperties.pathFolder = fileChooser.getSelectedFile().getAbsolutePath();
                     JOptionPane.showMessageDialog(fileChooser, "Directory saved successfully");
                 }
-            }catch(Exception e){
+                else if(typeOfFile == 3){//File psp3 with multiple columns, used by lineal regresion
+                     GlobalConfigProperties.pathFileMultimpleColumns = fileChooser.getSelectedFile().getAbsolutePath();
+//                     LinealRegressionController.insertLinkedListregression();
+                }
+            } catch (Exception e) {
                 JOptionPane.showMessageDialog(fileChooser, "Error saving file, contact the administrator program");
             }
-            
-        }else{
+
+        } else {
             JOptionPane.showMessageDialog(fileChooser, "Error saving file, contact the administrator program");
-        } 
+        }
     }
 }
